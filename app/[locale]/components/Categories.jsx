@@ -162,7 +162,7 @@ export default function Categories() {
                    {/* Product Image */}
                    <div className="relative">
                      {/* <span>{isOnSale ? "Sale" : ""}</span> */}
-                     <Link href={`Products/${product.id}`} className='bg-white block rounded-[12px] p-6 h-80 mb-2.5'>
+                     <Link href={`products/${product.id}`} className='bg-white block rounded-[12px] p-6 h-80 mb-2.5'>
                        <img
                        src={product.image}
                        alt={product.name}

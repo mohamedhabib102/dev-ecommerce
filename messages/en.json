@@ -1,6 +1,15 @@
 {
-  "HomePage": {
-    "title": "Welcome to our store!",
-    "desc": "This is the English version of our e-commerce site."
+  "Navbar": {
+    "general": "General",
+    "mySpace": "MySpace",
+    "support": "Support",
+    "accountk": "Account",
+    "home": "Home",
+    "products": "Products",
+     "contact": "Contact",
+     "activity": "Activity",
+     "privacy": "Privacy",
+     "help": "Help",
+     "account": "Account"
   }
 }

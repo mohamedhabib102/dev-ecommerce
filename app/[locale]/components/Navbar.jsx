@@ -4,13 +4,14 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { useTranslation  } from "react-i18next"
-import { useLocale } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import SwitchButtonLang from "../components/SwitchButtonLang"
 
 export default function Navbar() {
   const pathName = usePathname();
   const [toggle, setToggle] = useState(false);
-  const { t } = useTranslation('common')
+  const t = useTranslations('Navbar');
+
   const locale = useLocale()
     useEffect(() => {
     setToggle(false);
@@ -20,7 +21,7 @@ export default function Navbar() {
 
   const links = {
     generalText: {
-      title: "General",
+      title: "general",
       icons: [
 <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none"><path d="M5.67901 8.31904C8.33047 5.66758 9.6562 4.34185 11.2608 4.0877C11.779 4.00563 12.3069 4.00563 12.8251 4.0877C14.4297 4.34185 15.7555 5.66758 18.4069 8.31904V8.31904C19.5613 9.4734 20.1385 10.0506 20.498 10.7562C20.6169 10.9896 20.7173 11.2319 20.7983 11.4811C21.043 12.2342 21.043 13.0505 21.043 14.683V18.9551C21.043 20.6119 19.6998 21.9551 18.043 21.9551V21.9551C16.3861 21.9551 15.043 20.6119 15.043 18.9551V17.9551C15.043 16.2982 13.6998 14.9551 12.043 14.9551V14.9551C10.3861 14.9551 9.04297 16.2982 9.04297 17.9551V18.9551C9.04297 20.6119 7.69982 21.9551 6.04297 21.9551V21.9551C4.38611 21.9551 3.04297 20.6119 3.04297 18.9551V14.683C3.04297 13.0505 3.04297 12.2342 3.28769 11.4811C3.36863 11.2319 3.46902 10.9896 3.58794 10.7562C3.94746 10.0506 4.52464 9.4734 5.67901 8.31904V8.31904Z" stroke="#000000" strokeWidth="1.5" strokeLinejoin="round"/></svg>,  
   <svg
@@ -205,11 +206,12 @@ export default function Navbar() {
   </svg>
 ],
       text: ["Home", "Products", "Contact Us"],
-      path: ["/", "/Products", "/Contact"],
+      path: ["/", "/products", "/contact"],
       keys: ["home", "products", "contact"]
     },
     mySpace: {
-      title: "MySpace",
+      title: "mySpace",
+      titleKeys: "mySpace",
       icons: [      <svg
         key="icon4-inactive"
         xmlns="http://www.w3.org/2000/svg"
@@ -295,11 +297,12 @@ export default function Navbar() {
         />
       </svg>],
       text: ["Activity", "Privacy"],
-      path: ["/Activity", "/Privacy"],
+      path: ["/activity", "/privacy"],
       keys: ["activity", "privacy"]
     },
     support: {
-      title: "Support",
+      title: "support",
+      titleKeys: "support",
       icons: [<svg
         key="icon5-inactive"
         xmlns="http://www.w3.org/2000/svg"
@@ -337,11 +340,12 @@ export default function Navbar() {
         />
       </svg>],
       text: ["Help!"],
-      path: ["/Help"],
+      path: ["/help"],
       keys: ["help"]
     },
     account: {
-      text: ["Account"],
+      text: ["accountk"],
+      titleKeys: "accountk",      
       keys: ["account"],
       icons: [<svg
         key="icon4-inactive"
@@ -416,43 +420,50 @@ export default function Navbar() {
 
 
 // links of toggle 
-const renderLinks = (section) => (
-  <div className="px-9 py-4 border-b border-[#9A3E631A] last:border-b-0">
-    {section.title && (
-      <h4 className="text-[14px] text-[#9A3E63] mb-2">{section.title}</h4>
-    )}
-    <ul>
-      {section.text.map((ele, index) => {
-        const rawPath = section.path[index];
-        const fullPath = `/${locale}${rawPath}`;
-        const key = section.keys[index];
-        const isAccountSection = key === "account";
+const renderLinks = (section, locale, pathName, t) => {
+  const cleanedPath = pathName.toLowerCase().replace(/^\/(en|ar)/, '');
 
-        const cleanedPath = pathName.replace(/^\/(en|ar)/, '');
+  return (
+    <div className="px-9 py-4 border-b border-[#9A3E631A] last:border-b-0">
+      {section.title && (
+        <h4 className="text-[14px] text-[#9A3E63] mb-2">{t(section.title)}</h4>
+      )}
+      <ul>
+        {section.text.map((_, index) => {
+          const rawPath = section.path[index].toLowerCase();
+          const fullPath = `/${locale}${rawPath}`;
+          const key = section.keys[index];
+          const isAccountSection = key === "account";
 
-        const isActive = isAccountSection
-          ? ["/auth/login", "/auth/signup"].includes(cleanedPath)
-          : cleanedPath === rawPath || (rawPath === "/Products" && cleanedPath.startsWith("/Products/"));
+          const isHome = cleanedPath === '' || cleanedPath === '/';
 
-        return (
-          <li key={index} className="mb-1">
-            <Link
-              href={fullPath}
-              className={`${isActive
-                ? "text-white bg-gradient-to-r from-[#FE93B9] to-[#9A3E63] border-[1px] border-transparent border-l-[#9A3E63]"
-                : "text-[#000000CC]"}
-              flex items-center gap-2 text-[13px] rounded-[10px] py-1.5 px-2.5 w-full`}
-            >
-              {isActive ? section.iconsIsActive?.[index] : section.icons?.[index]}
-              {/* {t(`navbar.${key}`)} */}
-              {ele}
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-);
+          const isActive = isAccountSection
+            ? ["/auth/login", "/auth/signup"].includes(cleanedPath)
+            : (isHome && (rawPath === '/' || rawPath === ''))
+              ? true
+              : cleanedPath === rawPath || cleanedPath.startsWith(rawPath + '/');
+
+          return (
+            <li key={index} className="mb-1">
+              <Link
+                href={fullPath}
+                className={`${isActive
+                  ? "text-white bg-gradient-to-r from-[#FE93B9] to-[#9A3E63] border-[1px] border-transparent border-l-[#9A3E63]"
+                  : "text-[#000000CC]"
+                } flex items-center gap-2 text-[13px] rounded-[10px] py-1.5 px-2.5 w-full`}
+              >
+                {isActive ? section.iconsIsActive?.[index] : section.icons?.[index]}
+                {t(key)} {/* 🔥 هنا استدعاء الترجمة */}
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
+
+
 
 
 
@@ -546,10 +557,10 @@ const renderLinks = (section) => (
                       </div>
 
                       <div className="pt-4 pb-4 px-7 mb-4">
-                        {renderLinks(links.generalText)}
-                        {renderLinks(links.mySpace)}
-                      {renderLinks(links.support)}
-                      {renderLinks(links.account)}
+                        {renderLinks(links.generalText, locale, pathName, t)}
+                        {renderLinks(links.mySpace, locale, pathName, t)}
+                      {renderLinks(links.support, locale, pathName, t)}
+                      {renderLinks(links.account, locale, pathName, t)}
                       </div>
                     </div>
                   )}
@@ -612,6 +623,7 @@ const renderLinks = (section) => (
                       className=""
                     />
                   </Link>
+                  <SwitchButtonLang currentLocale={locale}/>
                 </li>
               </ul>
             </div>

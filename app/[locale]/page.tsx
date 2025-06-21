@@ -1,10 +1,11 @@
-import { useTranslations } from "next-intl";
+import Landing from "./components/Landing"
+import BestSeller from "./components/BestSeller"
 
 export default function HomePage() {
-  const t = useTranslations("HomePage");
   return (
     <div>
-      <h1>{t("title")}</h1>
+      <Landing />
+      <BestSeller />
     </div>
   );
 }

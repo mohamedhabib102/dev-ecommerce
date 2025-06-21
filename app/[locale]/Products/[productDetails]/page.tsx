@@ -21,7 +21,7 @@ export  default function productDetails({params}: Props){
         width={24}
         height={24}
         />
-        <Link  href={"/Products"} className='text-[#868686]'>Categories</Link>
+        <Link  href={"/products"} className='text-[#868686]'>Categories</Link>
         <Image
         src={"/arrow-right.svg"}
         alt="Arrow Right"
