@@ -1,20 +1,10 @@
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from "next-intl";
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
-
-export function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'ar' }];
-}
-
-export default async function Home({ params }: Props) {
-  const { locale } = await params; // <- لازم await هنا
-  const t = await getTranslations({ locale });
-
+export default function HomePage() {
+  const t = useTranslations("HomePage");
   return (
-    <main>
-      <h1>{t('title')}</h1>
-    </main>
+    <div>
+      <h1>{t("title")}</h1>
+    </div>
   );
 }
