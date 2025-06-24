@@ -1,6 +1,6 @@
 "use client"
-import { pre } from "framer-motion/client";
 import Image from "next/image"
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react"
 
 
@@ -145,7 +145,8 @@ export default function ResultCart({cartProducts}) {
               </div>
               <button className="cursor-pointer bg-[#FE93B9] rounded-4xl p-4 h-12 w-28 flex justify-center items-center"> Apply </button>
             </div>
-            <button className="cursor-pointer bg-[#FE93B9] rounded-4xl p-4 h-16 w-full flex justify-center items-center gap-3.5">Go to Checkout  
+            <Link href={"cart/checkout"}>
+                        <button className="cursor-pointer bg-[#FE93B9] rounded-4xl p-4 h-16 w-full flex justify-center items-center gap-3.5">Go to Checkout  
               <svg
                xmlns="http://www.w3.org/2000/svg"
                width="20"
@@ -159,6 +160,7 @@ export default function ResultCart({cartProducts}) {
                />
              </svg>
             </button>
+            </Link>
            </div>
         </div>
     )

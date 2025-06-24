@@ -1,10 +1,14 @@
 import "./globals.css"
 import Footer from "./components/Footer";
-import Navbar from "./components/Navbar"
+import Navbar from "./components/Navbar";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 
+
+export const metadata = {
+  title: "Home",
+};
 export default async function LocaleLayout({
   children,
   params,

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useLocale, useTranslations } from 'next-intl';
-import SwitchButtonLang from "../components/SwitchButtonLang"
+import SwitchButtonLang from "./SwitchButtonLang"
 
 export default function Navbar() {
   const pathName = usePathname();
@@ -590,7 +590,7 @@ const renderLinks = (section, locale, pathName, t) => {
                       alt="icon-header"
                     />
                   </Link>
-                  <Link href="/Cart" 
+                  <Link href="/cart" 
                   className="lg:bg-[#FE93B9] bg-transparent rounded-full w-[35px] h-[35px] flex justify-center items-center">
                     <Image
                       src="/cart.svg"

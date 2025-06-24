@@ -3,20 +3,18 @@
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
-interface LocaleSwitcherProps {
-  currentLocale: string; // string عادي، أو تضيف enum لو تحب
-}
 
-export default function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
+
+export default function LocaleSwitcher({ currentLocale }) {
   const router = useRouter();
   const pathname = usePathname();
 
   const newLocale = currentLocale === 'en' ? 'ar' : 'en';
 
-  // دالة عشان تتعامل مع كل الحالات (مسار فيه لغة أو لا)
-  const getNewPath = (path: string, locale: string) => {
+
+  const getNewPath = (path, locale) => {
     if (/^\/(en|ar)/.test(path)) {
-      // لو اللغة موجودة، استبدلها
+
       return path.replace(/^\/(en|ar)/, `/${locale}`);
     } else {
       // لو مفيش لغة في البداية، ضيفها مع /
@@ -33,7 +31,7 @@ export default function LocaleSwitcher({ currentLocale }: LocaleSwitcherProps) {
   return (
     <button
       onClick={handleSwitch}
-      className="px-4 py-2 rounded bg-gray-800 text-white hover:bg-gray-700 transition"
+      className="p-3 rounded-2xl bg-gray-800 text-white hover:bg-gray-700 transition cursor-pointer text-sm"
     >
       {newLocale === 'ar' ? 'العربية' : 'English'}
     </button>
